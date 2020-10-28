@@ -1,23 +1,29 @@
 mixin template Hierarhy( T )
-  @property size_t length()
-  T    root()
-  T    appendChild( T )( T child )
-  T    addNextSibling( T b )
-  void removeFromParent()
-  void removeChild( T c )
-  void removeChilds()
-  void each( alias IteratorFactory = inDepthIterator, FUNC )( FUNC func )
-  void eachChild( alias IteratorFactory = inDepthChildIterator, FUNC )( FUNC func )
-  void eachParent( alias IteratorFactory = parentIterator, FUNC )( FUNC func )
-  T    findFirst( alias IteratorFactory = inDepthIterator, FUNC )( FUNC func )
-  T    findFirst( alias IteratorFactory = inDepthIterator, T )( T needle )
-  T    findParent( FUNC )( FUNC func )
-  CLS  findParentClass( CLS )()
-  T    opIndex( size_t i )
-  auto inDepthIterator()
-  auto inDepthChildIterator()
-  auto parentIterator()
-  auto plainChildIterator()
+  T    parent;
+  T    firstChild;
+  T    lastChild;
+  T    prevSibling;
+  T    nextSibling;
+
+  size_t length()
+  T      root()
+  T      appendChild( T )( T child )
+  T      addNextSibling( T b )
+  void   removeFromParent()
+  void   removeChild( T c )
+  void   removeChilds()
+  void   each( alias IteratorFactory = inDepthIterator, FUNC )( FUNC func )
+  void   eachChild( alias IteratorFactory = inDepthChildIterator, FUNC )( FUNC func )
+  void   eachParent( alias IteratorFactory = parentIterator, FUNC )( FUNC func )
+  T      findFirst( alias IteratorFactory = inDepthIterator, FUNC )( FUNC func )
+  T      findFirst( alias IteratorFactory = inDepthIterator, T )( T needle )
+  T      findParent( FUNC )( FUNC func )
+  CLS    findParentClass( CLS )()
+  T      opIndex( size_t i )
+  auto   inDepthIterator()
+  auto   inDepthChildIterator()
+  auto   parentIterator()
+  auto   plainChildIterator()
   struct InDepthIterator
   struct PlainIterator
   
