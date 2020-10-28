@@ -1,3 +1,4 @@
+```
 mixin template Hierarhy( T )
   T    parent;
   T    firstChild;
@@ -26,8 +27,9 @@ mixin template Hierarhy( T )
   auto   plainChildIterator()
   struct InDepthIterator
   struct PlainIterator
-  
+```
 
+```
 // Example
 unittest
 {
@@ -115,3 +117,4 @@ unittest
     e.eachParent( ( Node node ) => ( parentNodes ~= node ) );
     assert( parentNodes == [ b, a ] );
 }
+```
