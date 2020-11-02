@@ -1,10 +1,8 @@
 {
-	"authors": [
-		"vital"
-	],
-	"copyright": "Copyright © 2020, vital",
-	"description": "A minimal D application.",
-	"license": "proprietary",
-	"name": "hierarhy",
-    "targetType": "sourceLibrary"
+    "authors"     : [ "vital" ],
+    "copyright"   : "Copyright © 2020, vital",
+    "description" : "A minimal D application.",
+    "license"     : "proprietary",
+    "name"        : "hierarhy",
+    "targetType"  : "sourceLibrary"
 }
