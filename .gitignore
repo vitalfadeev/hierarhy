@@ -1,0 +1,15 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/hierarhy
+hierarhy.so
+hierarhy.dylib
+hierarhy.dll
+hierarhy.a
+hierarhy.lib
+hierarhy-test-*
+*.exe
+*.o
+*.obj
+*.lst
