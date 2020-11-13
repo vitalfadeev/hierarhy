@@ -21,8 +21,7 @@ mixin template Hierarhy( T )
     import std.traits : isCallable;
 
 
-    /**
-    */
+    /** */
     T appendChild( T )( T child )
     {
         // Remove from parent
@@ -50,8 +49,7 @@ mixin template Hierarhy( T )
     }    
 
 
-    /**
-    */
+    /** */
     T addNextSibling( T b )
     {
         // Remove from parent
@@ -88,8 +86,7 @@ mixin template Hierarhy( T )
     }
 
 
-    /**
-    */
+    /** */
     void removeFromParent()
     {
         assert( parent !is null );
@@ -98,8 +95,7 @@ mixin template Hierarhy( T )
     }
 
 
-    /**
-    */
+    /** */
     void removeChild( T c )
     {
         assert( c !is null );
@@ -215,9 +211,9 @@ mixin template Hierarhy( T )
     //}
 
 
-    /**
-    */
-    @property size_t length()
+    /** */
+    @property 
+    size_t length()
     {
         size_t l = 1;
 
@@ -227,6 +223,24 @@ mixin template Hierarhy( T )
         }
 
         return l;
+    }
+
+
+    /** */
+    @property 
+    size_t childsCount()
+    {
+        size_t cnt = 0;
+
+        if ( firstChild !is null )
+        {        
+            for( T scan = firstChild; scan !is lastChild; scan = scan.nextSibling )
+            {
+                cnt += 1;
+            }
+        }
+
+        return cnt;
     }
 
 
@@ -263,8 +277,7 @@ mixin template Hierarhy( T )
     }
 
 
-    /**
-    */
+    /** */
     void each( alias IteratorFactory = inDepthIterator, FUNC )( FUNC func )
     {
         foreach( a; IteratorFactory() )
@@ -274,8 +287,7 @@ mixin template Hierarhy( T )
     }
 
 
-    /**
-    */
+    /** */
     void eachChild( alias IteratorFactory = inDepthChildIterator, FUNC )( FUNC func )
     {
         foreach( a; IteratorFactory() )
@@ -285,8 +297,7 @@ mixin template Hierarhy( T )
     }
 
 
-    /**
-    */
+    /** */
     void eachParent( alias IteratorFactory = parentIterator, FUNC )( FUNC func )
     {
         foreach( a; IteratorFactory() )
@@ -296,8 +307,7 @@ mixin template Hierarhy( T )
     }
 
 
-    /**
-    */
+    /** */
     T findFirst( alias IteratorFactory = inDepthIterator, FUNC )( FUNC func )
       if ( isCallable!FUNC )
     {
@@ -313,8 +323,7 @@ mixin template Hierarhy( T )
     }
 
 
-    /**
-    */
+    /** */
     T findFirst( alias IteratorFactory = inDepthIterator, T )( T needle )
       if ( !isCallable!T )
     {
@@ -330,40 +339,35 @@ mixin template Hierarhy( T )
     }
 
 
-    /**
-    */
+    /** */
     auto inDepthIterator()
     {
         return InDepthIterator( this );
     }
 
 
-    /**
-    */
+    /** */
     auto inDepthChildIterator()
     {
         return InDepthIterator( this.firstChild );
     }
 
 
-    /**
-    */
+    /** */
     auto parentIterator()
     {
         return ParentIterator( this.parent );
     }
 
 
-    /**
-    */
+    /** */
     auto plainChildIterator()
     {
         return PlainIterator( this.firstChild );
     }
 
 
-    /**
-    */
+    /** */
     struct InDepthIterator
     {
         T cur;
@@ -410,8 +414,7 @@ mixin template Hierarhy( T )
     }
 
 
-    /**
-    */
+    /** */
     struct PlainIterator
     {
         T cur;
@@ -429,8 +432,7 @@ mixin template Hierarhy( T )
     }
 
 
-    /**
-    */
+    /** */
     struct ParentIterator
     {
         T cur;
@@ -448,8 +450,7 @@ mixin template Hierarhy( T )
     }
 
 
-    /**
-    */
+    /** */
     T findParent( FUNC )( FUNC func )
     {
         auto scan = this.parent;
@@ -468,8 +469,7 @@ mixin template Hierarhy( T )
     }
 
 
-    /**
-    */
+    /** */
     T root()
     {
         auto scan = this.parent;
@@ -488,8 +488,7 @@ mixin template Hierarhy( T )
     }
 
 
-    /**
-    */
+    /** */
     CLS findParentClass( CLS )()
     {
         import ui.tools : instanceof;
