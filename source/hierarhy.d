@@ -308,10 +308,36 @@ mixin template Hierarhy( T )
 
 
     /** */
+    T findDeepest( FUNC )( FUNC func )
+      if ( isCallable!FUNC )
+    {
+        if ( firstChild !is null )
+        {
+            for ( auto a = firstChild, end = lastChild.nextSibling; a !is end; a = a.nextSibling )
+            {
+                // Found
+                if ( func( a ) )
+                {
+                    // Test his childs. Recursive
+                    auto c = a.findDeepest( func );
+
+                    if ( c is null )
+                        return a;
+                    else
+                        return c;
+                }
+            }
+        }
+
+        return null;
+    }
+
+
+    /** */
     T findFirst( alias IteratorFactory = inDepthIterator, FUNC )( FUNC func )
       if ( isCallable!FUNC )
     {
-        foreach( a; IteratorFactory() )
+        foreach ( a; IteratorFactory() )
         {
             if ( func( a ) )
             {
