@@ -25,7 +25,7 @@ mixin template Hierarhy( T )
     T appendChild( T )( T child )
     {
         // Remove from parent
-        if ( child.parent )
+        if ( child.parent !is null )
         {
             child.removeFromParent();
         }
