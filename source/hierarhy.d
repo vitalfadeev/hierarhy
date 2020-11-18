@@ -49,11 +49,38 @@ mixin template Hierarhy( T )
     }    
 
 
+    T insertBefore( T )( T child, T before )
+    {
+        // Remove from parent
+        if ( child.parent !is null )
+        {
+            child.removeFromParent();
+        }
+
+        // Validate
+        assert( before.parent is this );
+
+        // Insert
+        child.nextSibling  = before;
+        child.prevSibling  = before.prevSibling;
+        child.parent       = this;
+        before.prevSibling = child;
+
+        // 
+        if ( before is firstChild )
+        {
+            firstChild = child;
+        }
+
+        return child;
+    }
+
+
     /** */
     T addNextSibling( T b )
     {
         // Remove from parent
-        if ( b.parent )
+        if ( b.parent !is null )
         {
             b.removeFromParent();
         }
@@ -298,6 +325,16 @@ mixin template Hierarhy( T )
 
 
     /** */
+    void eachChildPlain( FUNC )( FUNC func )
+    {
+        foreach( a; plainChildIterator() )
+        {
+            func( a );
+        }
+    }
+
+
+    /** */
     void eachParent( alias IteratorFactory = parentIterator, FUNC )( FUNC func )
     {
         foreach( a; IteratorFactory() )
@@ -455,6 +492,18 @@ mixin template Hierarhy( T )
             cur = cur.nextSibling;         // RIGHT
         }
 
+        void drop( alias FUNC )( size_t n )
+        {
+            while ( !empty && n > 0 )
+            {            
+                if ( FUNC( front ) )
+                {
+                    n -= 1;
+                }
+
+                popFront();
+            }
+        }
     }
 
 
@@ -610,4 +659,5 @@ unittest
     e.eachParent( ( Node node ) => ( parentNodes ~= node ) );
     assert( parentNodes == [ b, a ] );
 }
+
 
