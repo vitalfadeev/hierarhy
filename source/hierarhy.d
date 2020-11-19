@@ -22,6 +22,14 @@ mixin template Hierarhy( T )
 
 
     /** */
+    pragma( inline )
+    bool hasChilds()
+    {
+        return firstChild !is null;
+    }
+
+
+    /** */
     T appendChild( T )( T child )
     {
         // Remove from parent
@@ -236,6 +244,13 @@ mixin template Hierarhy( T )
     //{
     //    return HeirarhyIterator( this, HierarhySpanMode.shallow );
     //}
+
+
+    pragma( inline )
+    T childs()
+    {
+        return firstChild;
+    }
 
 
     /** */
@@ -492,18 +507,18 @@ mixin template Hierarhy( T )
             cur = cur.nextSibling;         // RIGHT
         }
 
-        void drop( alias FUNC )( size_t n )
-        {
-            while ( !empty && n > 0 )
-            {            
-                if ( FUNC( front ) )
-                {
-                    n -= 1;
-                }
+        //void drop( alias FUNC )( size_t n )
+        //{
+        //    while ( !empty && n > 0 )
+        //    {            
+        //        if ( FUNC( front ) )
+        //        {
+        //            n -= 1;
+        //        }
 
-                popFront();
-            }
-        }
+        //        popFront();
+        //    }
+        //}
     }
 
 
