@@ -57,7 +57,7 @@ mixin template Hierarhy( T )
     }    
 
 
-    T insertBefore( T )( T child, T before )
+    T insertChildBefore( T )( T child, T before )
     {
         // Remove from parent
         if ( child.parent !is null )
@@ -69,10 +69,17 @@ mixin template Hierarhy( T )
         assert( before.parent is this );
 
         // Insert
+        auto prev = before.prevSibling;
+
+        child.prevSibling  = prev;
         child.nextSibling  = before;
-        child.prevSibling  = before.prevSibling;
-        child.parent       = this;
         before.prevSibling = child;
+        child.parent       = this;
+
+        if ( prev !is null )
+        {
+            prev.nextSibling = child;
+        }
 
         // 
         if ( before is firstChild )
@@ -135,31 +142,35 @@ mixin template Hierarhy( T )
     {
         assert( c !is null );
 
-        // Childs
-        if ( firstChild == c )
-        {
-            firstChild = firstChild.nextSibling;
-        }
-
-        if ( lastChild == c )
-        {
-            lastChild = lastChild.prevSibling;
-        }
-
         // Parent
         c.parent = null;
 
         // Siblings
-        if ( c.prevSibling )
+        auto prev = c.prevSibling;
+        auto next = c.nextSibling;
+
+        if ( prev !is null )
         {
-            c.prevSibling.nextSibling = c.nextSibling;
+            prev.nextSibling = next;
         }
 
-        if ( c.nextSibling )
+        if ( next !is null )
         {
-            c.nextSibling.prevSibling = c.prevSibling;
+            next.prevSibling = prev;
         }
 
+        // Childs
+        if ( firstChild == c )
+        {
+            firstChild = next;
+        }
+
+        if ( lastChild == c )
+        {
+            lastChild = prev;
+        }
+
+        //
         c.prevSibling = null;
         c.nextSibling = null;
     }
@@ -169,7 +180,7 @@ mixin template Hierarhy( T )
     {
         if ( firstChild !is null )
         {
-            for ( T scan = firstChild; scan !is null; scan = scan.nextSibling )
+            for ( T scan = firstChild, end = lastChild.nextSibling; scan !is end; scan = scan.nextSibling )
             {
                 scan.parent = null;
                 scan.prevSibling = null;
