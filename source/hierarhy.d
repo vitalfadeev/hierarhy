@@ -517,7 +517,18 @@ mixin template Hierarhy( T )
 
         void popFront()
         {
-            cur = cur.nextSibling;         // RIGHT
+            // no Siblings when no parent
+            if ( parent is null )
+                return null;
+
+            import std.algorithm : countUntil;
+            auto pos = parent.childs.countUntil( cur );
+            pos += 1;
+
+            if ( pos == parent.childs.length )
+                return null;
+            else
+                return parent.childs[ pos ];         // RIGHT
         }
 
         //void drop( alias FUNC )( size_t n )
