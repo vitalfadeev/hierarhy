@@ -459,7 +459,7 @@ mixin template Hierarhy( T )
     /** */
     struct InDepthIterator
     {
-        T cur;
+        T   cur;
         T[] stack;
 
     public:
@@ -473,7 +473,7 @@ mixin template Hierarhy( T )
             import std.range.primitives : popBack;
 
             // in depth
-            if ( cur.firstChild !is null )
+            if ( cur.hasChilds )
             {
                 stack ~= cur;
                 cur = cur.firstChild;
@@ -483,8 +483,10 @@ mixin template Hierarhy( T )
                 cur = cur.nextSibling;         // RIGHT
 
             l1:
+                // No next Sibling 
                 if ( cur is null )
                 {
+                    // Go to Parent
                     if ( stack.length != 0 )
                     {
                         cur = stack.back;      // UP
